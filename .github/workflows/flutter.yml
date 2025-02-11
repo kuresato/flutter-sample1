@@ -62,6 +62,9 @@ jobs:
     #       -Dsonar.tests=test
     #       -Dsonar.flutter.coverage.reportPath=coverage/lcov.info
 
+    # SonarQube公式のアクションはこれ？
+    # https://github.com/marketplace/actions/official-sonarqube-scan
+    # 証明書関連のエラーになる、SonarQube側の証明書が適切でない可能性が高そう
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v4.1.0
       env:
