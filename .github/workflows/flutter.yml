@@ -48,19 +48,37 @@ jobs:
         sudo update-ca-certificates
 
     # SonarQubeの設定
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarcloud-github-action@v1.5
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #   with:
+    #     projectBaseDir: . # プロジェクトのルートディレクトリ
+    #     args: >
+    #       -Dsonar.projectKey=flutter-sample1
+    #       -Dsonar.organization=devops
+    #       -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
+    #       -Dsonar.sources=lib,pubspec.yaml
+    #       -Dsonar.tests=test
+    #       -Dsonar.flutter.coverage.reportPath=coverage/lcov.info
+
     - name: SonarQube Scan
-      uses: sonarsource/sonarcloud-github-action@v1.5
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      uses: SonarSource/sonarqube-scan-action@v4.1.0
       with:
-        projectBaseDir: . # プロジェクトのルートディレクトリ
+        projectBaseDir: .
         args: >
-          -Dsonar.projectKey=flutter-sample1
-          -Dsonar.organization=devops
-          -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
-          -Dsonar.sources=lib,pubspec.yaml
-          -Dsonar.tests=test
-          -Dsonar.flutter.coverage.reportPath=coverage/lcov.info
+          -Dsonar.organization=my-organization
+          -Dsonar.projectKey=my-projectkey
+          -Dsonar.python.coverage.reportPaths=coverage.xml
+          -Dsonar.sources=lib/
+          -Dsonar.tests=tests/
+          -Dsonar.test.exclusions=tests/**
+          -Dsonar.verbose=true
+      env:
+        SONAR_TOKEN: ${{ secret.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+        SONAR_ROOT_CERT: ${{ secrets.SONARQUBE_CERT }}
+
     # SonarQubeの結果をチェック
     # - name: Quality Gate
     #   uses: sonarsource/sonarcloud-quality-gate-action@master
