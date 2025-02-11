@@ -65,9 +65,9 @@ jobs:
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v4.1.0
       env:
-        SONAR_TOKEN: ${{ secret.SONAR_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-        SONAR_ROOT_CERT: ${{ secrets.SONARQUBE_CERT }}
+        SONAR_ROOT_CERT: ${{ vars.SONARQUBE_CERT }}
       with:
         projectBaseDir: .
         args: >
