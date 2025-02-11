@@ -52,7 +52,7 @@ jobs:
         args: >
           -Dsonar.projectKey=flutter-sample1
           -Dsonar.organization=devops
-          -Dsonar.host.url=${{ vars.SONAR_TOKEN }}
+          -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
           -Dsonar.sources=lib,pubspec.yaml
           -Dsonar.tests=test
           -Dsonar.flutter.coverage.reportPath=coverage/lcov.info
