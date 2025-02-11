@@ -37,11 +37,15 @@ jobs:
     #         curl https://ifconfig.me の結果を使って、SecurityGroupの設定を変更する・・・ってのはどうか？？？
 
     # SonarQubeの証明書をインストール
-    # - name: Install SonarQube certificate
-    #   run: |
-    #     sudo mkdir -p /usr/local/share/ca-certificates/extra
-    #     sudo cp sonarqube.crt /usr/local/share/ca-certificates/extra/sonarqube.crt
-    #     sudo update-ca-certificates
+    - name: Install SonarQube certificate
+      # run: |
+      #   sudo mkdir -p /usr/local/share/ca-certificates/extra
+      #   sudo cp sonarqube.crt /usr/local/share/ca-certificates/extra/sonarqube.crt
+      #   sudo update-ca-certificates
+      run: |
+        echo "${{ vars.SONARQUBE_CERT }}" | sudo tee /usr/local/share/ca-certificates/extra/sonarqube.crt
+        sudo update-ca-certificates
+
     # SonarQubeの設定
     - name: SonarQube Scan
       uses: sonarsource/sonarcloud-github-action@v1.5
