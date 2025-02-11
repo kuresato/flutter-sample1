@@ -43,6 +43,7 @@ jobs:
       #   sudo cp sonarqube.crt /usr/local/share/ca-certificates/extra/sonarqube.crt
       #   sudo update-ca-certificates
       run: |
+        sudo mkdir -p /usr/local/share/ca-certificates/extra
         echo "${{ vars.SONARQUBE_CERT }}" | sudo tee /usr/local/share/ca-certificates/extra/sonarqube.crt
         sudo update-ca-certificates
 
