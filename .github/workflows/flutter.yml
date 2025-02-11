@@ -26,3 +26,48 @@ jobs:
 
     - name: Run tests
       run: flutter test
+
+    # SonarQubeにアクセスするソースIPを固定できないため、SecurityGroupの設定が課題になる
+    # 対策１：AWS上でセルフホストランナーを使用する
+    #         これなら素直にCodeBuildを使った方が良いと思われる
+    # 対策２：GitHub Actionsが使用するIPアドレス範囲からのアクセスを許可する
+    #         ただし、これでOKがもらえるとは思えない
+    #         https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-githubs-ip-addresses
+    #         CI/CD実行時に、今使っているIPアドレスからのアクセスだけを許可する・・・ってのはがんばればできるか？？？
+    #         curl https://ifconfig.me の結果を使って、SecurityGroupの設定を変更する・・・ってのはどうか？？？
+
+    # SonarQubeの証明書をインストール
+    # - name: Install SonarQube certificate
+    #   run: |
+    #     sudo mkdir -p /usr/local/share/ca-certificates/extra
+    #     sudo cp sonarqube.crt /usr/local/share/ca-certificates/extra/sonarqube.crt
+    #     sudo update-ca-certificates
+    # SonarQubeの設定
+    - name: SonarQube Scan
+      uses: sonarsource/sonarcloud-github-action@v1.5
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: . # プロジェクトのルートディレクトリ
+        args: >
+          -Dsonar.projectKey=flutter-sample1
+          -Dsonar.organization=devops
+          -Dsonar.host.url=${{ vars.SONAR_TOKEN }}
+          -Dsonar.sources=lib,pubspec.yaml
+          -Dsonar.tests=test
+          -Dsonar.flutter.coverage.reportPath=coverage/lcov.info
+    # SonarQubeの結果をチェック
+    # - name: Quality Gate
+    #   uses: sonarsource/sonarcloud-quality-gate-action@master
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    # ビルド成果物を保存
+    # - name: Build APK
+    #   run: flutter build apk --release
+
+    # - name: Upload APK
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: app-release.apk
+    #     path: build/app/outputs/flutter-apk/app-release.apk
