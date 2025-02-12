@@ -80,7 +80,7 @@ jobs:
           -Dsonar.sources=lib,pubspec.yaml
           -Dsonar.tests=test
           -Dsonar.verbose=true
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    # -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
     # SonarQubeの結果をチェック
     # - name: Quality Gate
