@@ -72,6 +72,7 @@ jobs:
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         SONAR_ROOT_CERT: ${{ vars.SONARQUBE_CERT }}
       with:
+        scannerVersion: 6.2.0.4584
         projectBaseDir: .
         args: >
           -Dsonar.organization=my-organization
