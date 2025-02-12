@@ -36,43 +36,17 @@ jobs:
     #         CI/CD実行時に、今使っているIPアドレスからのアクセスだけを許可する・・・ってのはがんばればできるか？？？
     #         curl https://ifconfig.me の結果を使って、SecurityGroupの設定を変更する・・・ってのはどうか？？？
 
-    # SonarQubeの証明書をインストール
-    # - name: Install SonarQube certificate
-      # run: |
-      #   sudo mkdir -p /usr/local/share/ca-certificates/extra
-      #   sudo cp sonarqube.crt /usr/local/share/ca-certificates/extra/sonarqube.crt
-      #   sudo update-ca-certificates
-      # run: |
-      #   sudo mkdir -p /usr/local/share/ca-certificates/extra
-      #   echo "${{ vars.SONARQUBE_CERT }}" | sudo tee /usr/local/share/ca-certificates/extra/sonarqube.crt
-      #   sudo update-ca-certificates
-
-    # SonarQubeの設定
-    # - name: SonarQube Scan
-    #   uses: sonarsource/sonarcloud-github-action@v1.5
-    #   env:
-    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    #   with:
-    #     projectBaseDir: . # プロジェクトのルートディレクトリ
-    #     args: >
-    #       -Dsonar.projectKey=flutter-sample1
-    #       -Dsonar.organization=devops
-    #       -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
-    #       -Dsonar.sources=lib,pubspec.yaml
-    #       -Dsonar.tests=test
-    #       -Dsonar.flutter.coverage.reportPath=coverage/lcov.info
-
     # SonarQube公式のアクションはこれ？
     # https://github.com/marketplace/actions/official-sonarqube-scan
-    # 証明書関連のエラーになる、SonarQube側の証明書が適切でない可能性が高そう
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v4.2.1
       env:
-        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-        SONAR_ROOT_CERT: ${{ vars.SONARQUBE_CERT }}
+        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}      # SonarQubeのURL
+        SONAR_ROOT_CERT: ${{ vars.SONARQUBE_CERT }}     # SonarQubeが信頼する証明書を指定する場合
+        # トークンを環境変数で渡せるか、コマンド引数で渡すかはバージョンによって変わる模様
         # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
-        scannerVersion: 6.2.1.4610
+        scannerVersion: 6.2.1.4610  # SonarScannerのバージョンを指定
         projectBaseDir: .
         args: >
           -Dsonar.organization=my-organization
