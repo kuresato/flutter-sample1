@@ -66,7 +66,7 @@ jobs:
     # https://github.com/marketplace/actions/official-sonarqube-scan
     # 証明書関連のエラーになる、SonarQube側の証明書が適切でない可能性が高そう
     - name: SonarQube Scan
-      uses: SonarSource/sonarqube-scan-action@v4.1.0
+      uses: SonarSource/sonarqube-scan-action@v4.2.1
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
