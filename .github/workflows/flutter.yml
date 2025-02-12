@@ -68,9 +68,9 @@ jobs:
     - name: SonarQube Scan
       uses: SonarSource/sonarqube-scan-action@v4.2.1
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         SONAR_ROOT_CERT: ${{ vars.SONARQUBE_CERT }}
+        # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       with:
         scannerVersion: 6.2.1.4610
         projectBaseDir: .
@@ -80,7 +80,7 @@ jobs:
           -Dsonar.sources=lib,pubspec.yaml
           -Dsonar.tests=test
           -Dsonar.verbose=true
-    # -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
     # SonarQubeの結果をチェック
     # - name: Quality Gate
