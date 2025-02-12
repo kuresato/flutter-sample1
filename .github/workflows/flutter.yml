@@ -81,6 +81,7 @@ jobs:
           -Dsonar.tests=tests/
           -Dsonar.test.exclusions=tests/**
           -Dsonar.verbose=true
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
     # SonarQubeの結果をチェック
     # - name: Quality Gate
