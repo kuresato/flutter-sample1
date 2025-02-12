@@ -77,10 +77,8 @@ jobs:
         args: >
           -Dsonar.organization=my-organization
           -Dsonar.projectKey=my-projectkey
-          -Dsonar.python.coverage.reportPaths=coverage.xml
-          -Dsonar.sources=lib/
-          -Dsonar.tests=tests/
-          -Dsonar.test.exclusions=tests/**
+          -Dsonar.sources=lib,pubspec.yaml
+          -Dsonar.tests=tests
           -Dsonar.verbose=true
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
